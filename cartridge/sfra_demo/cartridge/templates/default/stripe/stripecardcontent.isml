@@ -1,0 +1,168 @@
+
+<style>
+  .newcontainer {
+    border: 1px solid black;
+    padding: 20px;
+    margin: 10px;
+  }
+
+  .pay{
+    padding: 10px;
+    background-color: #d1cbcb;
+    width: 100%;
+  }
+</style>
+
+<isscript>
+    var BasketMgr = require('dw/order/BasketMgr');
+    var currentBasket = BasketMgr.getCurrentBasket();
+</isscript>
+
+
+<div class="newcontainer">
+  <div id="payment0"></div>
+</div>
+<input type="hidden" name="url" id="url" value="${URLUtils.url('StripeHelper-stripepayment')}">
+<input type="hidden" name="price" id="price" value="${currentBasket.getTotalGrossPrice()}">
+
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  $(document).ready(function () {
+    $(".submit-payment").attr("disabled","true");
+    var secret_id;
+    var final_id;
+   
+
+    var stripe = Stripe('pk_test_51JZVy4SAFgEvVMHXiBPb9t9s3OEpijacI1lCzCtrpUE1LBtUL3C8e0Gnit4fTPksLR7mz98qX1kS9mKkPHWxzlYu00VbtJuowR');
+    var elements = stripe.elements();
+    var cardElement = elements.create('card');
+    cardElement.mount("#payment0");  
+
+    cardElement.on("change",function(event){
+      if(event.complete){
+        $(".pay").removeAttr("disabled").css("background-color","#24f0ec");
+        $(".submit-payment").removeAttr("disabled");
+      }else{
+        $(".pay").attr("disabled","true").css("background-color","#d1cbcb");
+        $(".submit-payment").attr("disabled","true");
+      }
+    });
+
+    // var checkoutButton = document.getElementById("pay");
+
+    // checkoutButton.addEventListener("click", function (e) {
+    //   $.ajax({
+    //   type: "post",
+    //   url: "https://api.stripe.com/v1/payment_intents",
+    //   async: true,
+    //   headers: {"authorization": "Bearer sk_test_51JZVy4SAFgEvVMHXHjLNVGAcVhu8VjiK66KNo12L0XPHqtQPaYN1L9D8PBL9l6EF9xL19u5bZtOHXVnNrA24Ralz00oVobjeWR"},
+    //   data: {
+    //     amount: 100, 
+    //     currency: "usd",
+    //     description: "for testing purpose"
+    //   },
+    //   success: function (response) {
+    //     console.log(response);
+    //     secret_id = response.client_secret;
+    //     final_id = response.id+"_secret_"+secret_id;
+    //     console.log(final_id);
+    //     stripe.confirmCardPayment(secret_id+"", {
+    //             payment_method: {
+    //             card: cardElement,
+    //             billing_details: {
+    //                 name: 'Jenny Rosen'
+    //               },
+    //             },
+    //             shipping: {
+    //               address: {
+    //                 city: "Anchorage",
+    //                 country: "US",
+    //                 state: "Alaska",
+    //                 postal_code: "99501",
+    //                 line1: "test"
+    //               },
+    //               name: "Jenny Rosen"
+    //             }
+    //       }).then(function(result) {
+    //           console.log(result);
+    //       });
+    //   },
+    //   error: function(e){
+    //     console.log("error");
+    //     console.log(e);
+    //   }
+    // });
+        
+    //  }); 
+
+     $(".submit-payment").on('click',function(e){
+            console.log("clicked payment");
+            $.ajax({
+                type: "post",
+                url: "https://api.stripe.com/v1/payment_intents",
+                async: true,
+                headers: {"authorization": "Bearer sk_test_51JZVy4SAFgEvVMHXHjLNVGAcVhu8VjiK66KNo12L0XPHqtQPaYN1L9D8PBL9l6EF9xL19u5bZtOHXVnNrA24Ralz00oVobjeWR"},
+                data: {
+                    amount: parseInt($("#price").val().split(" ")[1])*100, 
+                    currency: $("#price").val().split(" ")[0],
+                    description: "for testing purpose"
+                },
+                success: function (response) {
+                    secret_id = response.client_secret;
+                    stripe.confirmCardPayment(secret_id+"", {
+                payment_method: {
+                card: cardElement,
+                billing_details: {
+                    name: 'jonathan'
+                  },
+                },
+                shipping: {
+                  address: {
+                    city: "Anchorage",
+                    country: "US",
+                    state: "Alaska",
+                    postal_code: "99501",
+                    line1: "test"
+                  },
+                  name: "Jenny Rosen"
+                }
+          }).then(function(result) {
+              console.log(result);
+          });
+                },
+                error: function(error){
+                    alert("error occured, try again");
+                    console.log(error);
+                    e.preventDefault();
+                }
+            });
+        })
+
+        // $(".place-order").on('click',function(e){
+        //     console.log("clicked place order");
+        //     stripe.confirmCardPayment(secret_id+"", {
+        //         payment_method: {
+        //         card: cardElement,
+        //         billing_details: {
+        //             name: 'jonathan'
+        //           },
+        //         },
+        //         shipping: {
+        //           address: {
+        //             city: "Anchorage",
+        //             country: "US",
+        //             state: "Alaska",
+        //             postal_code: "99501",
+        //             line1: "test"
+        //           },
+        //           name: "Jenny Rosen"
+        //         }
+        //   }).then(function(result) {
+        //       console.log(result);
+        //   });
+        // })     
+  });
+
+</script>

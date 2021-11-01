@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-signin-client_id"
+        content="58980079633-mnk4his0qprlst506jsm71out78nu7ek.apps.googleusercontent.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+    <title>Login</title>
+
+    <style>
+        .data {
+            display: none;
+        }
+
+        .g-signin2 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -50px;
+            margin-left: -50px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2 class="alert alert-primary text-center">Sign in with Google</h2>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+    <div class="data">
+        <p>Name:</p>
+        <p id="name" class="alert alert-success"></p>
+        <p>Profile:</p>
+        <img width="100" height="100" id="image" class="rounded-circle">
+        <p>Email Id:</p>
+        <p id="email" class="alert alert-success"></p>
+        <button type="button" class="btn btn-danger" onclick="signOut()">Sign Out</button>
+
+        <input type="hidden" name="url" id="url" value="${URLUtils.url('CreateUser-login')}">
+        <button type="button" class="btn btn-success" onclick="createUser()">Create User</button>
+    </div>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+    var x;
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            x = profile;
+            $("#name").text(profile.getName());
+            $("#email").text(profile.getEmail());
+            $("#image").attr('src', profile.getImageUrl());
+
+            $(".data").css("display", "block");
+            $(".g-signin2").css("display", "none");
+        }
+
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                $(".data").css("display", "none");
+                $(".g-signin2").css("display", "block");
+            });
+        }
+
+        function createUser(){
+            console.log($("#url").val());
+            var datasend = {name: x.getName(),email: x.getEmail(),imagesrc: x.getImageUrl()}
+            $.ajax({
+                type: "get",
+                url: $("#url").val(),
+                data: datasend,
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function(error){
+                    alert("error");
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

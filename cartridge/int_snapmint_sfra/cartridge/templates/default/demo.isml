@@ -1,0 +1,27 @@
+<style>
+    .snap{
+        border: 0.3px solid black;
+        text-align: center;
+        min-width: 500px;
+    }
+</style>
+
+<input type="hidden" name="pricevalue" id="pricevalue" value="${pdict.price}">
+<div class="snap">
+    <h3>or Pay <span id="payableAmount"></span> now + <span id="installment"></span> * <span id="month"></span> Installments later</h3>
+    <h3>Credit card NOT required, Instant approval with Image</h3>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        console.log("working");
+        var price = $("#pricevalue").val();
+        var payable = Math.ceil(price * 0.25);
+        var remaining_amount = price - payable;
+        var installment = Math.ceil(remaining_amount / 3);
+        document.getElementById("payableAmount").innerHTML=payable;
+        document.getElementById("installment").innerHTML=installment;
+        document.getElementById("month").innerHTML= 3;
+    });
+</script>

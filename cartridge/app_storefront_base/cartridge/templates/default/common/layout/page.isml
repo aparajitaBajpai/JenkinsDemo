@@ -1,0 +1,64 @@
+<iscontent type="text/html" charset="UTF-8" compact="true"/>
+
+<isinclude template="/components/modules" sf-toolkit="off" />
+
+<!DOCTYPE html>
+<html lang="${require('dw/util/Locale').getLocale(request.getLocale()).getLanguage()}">
+    <head>
+        <!--[if gt IE 9]><!-->
+            <isinclude sf-toolkit="off" template="/common/scripts" />
+        <!--<![endif]-->
+        <isinclude template="/common/htmlHead" />
+        <isif condition="${pdict.canonicalUrl}" >
+            <link rel="canonical" href="${pdict.canonicalUrl}"/>
+        </isif>
+        <isactivedatahead/>
+        <isinclude template="/components/schema" />
+    </head>
+    <body>
+        ${dw.system.HookMgr.callHook('app.template.beforeHeader', 'beforeHeader', pdict) || ''}
+
+        <div class="page" data-action="${pdict.action}" data-querystring="${pdict.queryString}" >
+            <isinclude template="/components/header/pageHeader" />
+            <div role="main" id="maincontent">
+                <isreplace/>
+            </div>
+            <isinclude template="/components/footer/pageFooter" />
+        </div>
+        <div class="error-messaging"></div>
+        <div class="modal-background"></div>
+        <iscontentasset aid="cookie_hint" />
+         <!--[if lt IE 10]>
+            <isinclude sf-toolkit="off" template="/common/scripts" />
+        <![endif]-->
+        <iscomment>
+            hook for Marketing Cloud connector & other integration which need to inject
+            logic at the page end
+            IMPORTANT: Note that this hook will be called to cached as well as uncached pages
+                        which means you need to put privacy information into another remote include
+        </iscomment>
+        ${dw.system.HookMgr.callHook('app.template.afterFooter', 'afterFooter', pdict) || ''}
+        <isinclude url="${URLUtils.url('ConsentTracking-Check')}"/>
+
+
+        <script type="application/javascript" async
+src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=XXTrtK"></script>
+
+<iscomment> <script type="text/javascript">
+   var _learnq = _learnq || [];
+   var item = {
+     "ProductName": "Winnie the Pooh",
+     "ProductID": "1111",
+     "SKU": "WINNIEPOOH",
+     "Categories": ["Fiction", "Children"],
+     "ImageURL": "http://www.example.com/path/to/product/image.png",
+     "URL": "http://www.example.com/path/to/product",
+     "Brand": "Kids Books",
+     "Price": 9.99,
+     "CompareAtPrice": 14.99
+   };
+ 
+   _learnq.push(["track", "Viewed Product", item]); 
+ </script></iscomment>
+    </body>
+</html>

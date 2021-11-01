@@ -1,0 +1,6 @@
+<ismodule template="/components/content/contentAsset"
+    name="contentasset"
+    attribute="aid"
+/>
+
+<ismodule template="/demo" name="demo" attribute="price" />

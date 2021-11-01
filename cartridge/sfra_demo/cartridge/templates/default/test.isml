@@ -1,0 +1,98 @@
+<isinclude template="components/modules" sf-toolkit="on" />
+
+hello cloud commerce<br>
+${pdict.t1}
+
+
+<isdemo price="487" />
+
+
+<div class="snap_emi_txt"></div>
+<span class="snapmint_lowest_emi_value" style="display:none;" data-snapmint-price="487" data-snapmint-merchant_id="1411"></span>
+
+now here
+<form id="snapmint" name="snapmint" method="post" action="https://sandboxapi.snapmint.com/v3/public/online_checkout">
+<!--Setup-->
+<input type="hidden" name="merchant_key" value="1411"/>
+<input type="hidden" name="identifier" value="received in section 4.1.1.a"/>
+<input type="hidden" name="merchant_confirmation_url" value="www.google.com"/>
+<input type="hidden" name="merchant_failure_url" value="www.yahoo.com"/>
+<input type="hidden" name="checksum_hash" value="Compulsory"/>
+<!--Setup End-->
+<!--Order Details-->
+<input type="hidden" name="sub_merchant_id" value="Optional"/>
+<input type="hidden" name="shipping_fees" value="Optional"/>
+<input type="hidden" name="discount_code" value="Optional"/>
+<input type="hidden" name="order_id" value="Compulsory"/>
+<input type="hidden" name="order_value" value="Compulsory"/>
+<input type="hidden" name="tenure" value="Optional"/>
+<input type="hidden" name="udf1" value="Optional"/>
+<input type="hidden" name="udf2" value="Optional"/>
+<input type="hidden" name="udf3" value="Optional"/>
+<!--Order Details End-->
+<!--User Details-->
+<!--Basic Details-->
+<input type="hidden" name="first_name" value="Compulsory"/>
+<input type="hidden" name="middle_name" value="Optional"/>
+<input type="hidden" name="last_name" value="Compulsory"/>
+<input type="hidden" name="full_name" value="Compulsory"/>
+<input type="hidden" name="email" value="Compulsory"/>
+<input type="hidden" name="mobile" value="Compulsory"/>
+<!--shipping address-->
+<input type="hidden" name="shipping_first_name" value="Optional"/>
+<input type="hidden" name="shipping_middle_name" value="Optional"/>
+<input type="hidden" name="shipping_last_name" value="Optional"/>
+<input type="hidden" name="shipping_address_line1" value="Compulsory"/>
+<input type="hidden" name="shipping_address_line2" value="Optional"/>
+<input type="hidden" name="shipping_city" value="Optional"/>
+<input type="hidden" name="shipping_zip" value="Compulsory"/>
+<!--billing address-->
+<input type="hidden" name="billing_first_name" value="Optional"/>
+<input type="hidden" name="billing_middle_name" value="Optional"/>
+<input type="hidden" name="billing_last_name" value="Optional"/>
+<input type="hidden" name="billing_address_line1" value="Compulsory"/>
+<input type="hidden" name="billing_address_line2" value="Optional"/>
+<input type="hidden" name="billing_city" value="Optional"/>
+<input type="hidden" name="billing_zip" value="Compulsory"/>
+<!--User details End-->
+<!--Product details-->
+<!--Product 1-->
+<input type="hidden" name="products[][sku]" value="Compulsory"/>
+<input type="hidden" name="products[][name]" value=" Compulsory"/>
+<input type="hidden" name="products[][quantity]" value="Compulsory"/>
+<input type="hidden" name="products[][item_url]" value="Compulsary"/>
+<input type="hidden" name="products[][image_url]" value="Compulsary"/>
+<input type="hidden" name="products[][category]" value="Optional"/>
+<input type="hidden" name="products[][unit_price]" value="Compulsory"/>
+<input type="hidden" name="products[][udf1]" value="Optional"/>
+<input type="hidden" name="products[][udf2]" value="Optional"/>
+<input type="hidden" name="products[][udf3]" value="Optional"/>
+<!--Product 2-->
+<input type="hidden" name="products[][sku]" value="Compulsory"/>
+<input type="hidden" name="products[][name]" value="Compulsory"/
+<input type="hidden" name="products[][quantity]" value="Compulsory"/>
+<input type="hidden" name="products[][item_url]" value="Compulsary"/>
+<input type="hidden" name="products[][image_url]" value="Compulsary"/>
+<input type="hidden" name="products[][category]" value="Optional"/>
+<input type="hidden" name="products[][unit_price]" value="Compulsory"/>
+<input type="hidden" name="products[][udf1]" value="Optional"/>
+<input type="hidden" name="products[][udf2]" value="Optional"/>
+<input type="hidden" name="products[][udf3]" value="Optional"/>
+<!--Product details End-->
+<input type="submit" value="Make Payment"/>
+</form>
+
+
+<script>
+    (function () {
+        var snapmint = document.createElement('script');
+        snapmint.type = 'text/javascript';
+        snapmint.async = true;
+        snapmint.src = ('https:' ==
+            document.location.protocol ? 'https://' : 'http://') +
+            'assets.snapmint.com/assets/merchant/1411/snapmint_emi.js';
+        var s =
+            document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(snapmint, s);
+    })();
+</script>
